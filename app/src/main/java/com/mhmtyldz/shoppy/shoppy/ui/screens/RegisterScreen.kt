@@ -28,6 +28,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,13 +42,13 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.mhmtyldz.shoppy.shoppy.R
+import timber.log.Timber
 
 /**
 created by Mehmet E. Yıldız
@@ -83,6 +84,10 @@ private fun getBg(): List<Color> {
 
 @Composable
 private fun RegisterUI(navController: NavController) {
+    val emailState = remember { mutableStateOf("") }
+    val passwordState = remember { mutableStateOf("") }
+    val passwordAgainState = remember { mutableStateOf("") }
+
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier.defaultMinSize(minHeight = 500.dp)
@@ -90,10 +95,17 @@ private fun RegisterUI(navController: NavController) {
 
         SignUpText()
         Spacer(modifier = Modifier.padding(top = 32.dp))
-        EmailField()
-        PasswordField()
-        PasswordAgainField()
-        SignUpButton(navController)
+        EmailField(emailState.value) { newValue ->
+            emailState.value = newValue
+        }
+        PasswordField(passwordState.value) { newValue ->
+            passwordState.value = newValue
+        }
+        PasswordAgainField(passwordAgainState.value) { newValue ->
+            passwordAgainState.value = newValue
+        }
+
+        SignUpButton(navController, emailState, passwordState, passwordAgainState)
         AlreadyHaveAnAccounText(navController)
 
     }
@@ -126,8 +138,7 @@ private fun SignUpText() {
 }
 
 @Composable
-private fun PasswordAgainField() {
-    var passwordState by rememberSaveable { mutableStateOf("") }
+private fun PasswordAgainField(passwordAgainState: String, function: (String) -> Unit) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     OutlinedTextField(
@@ -137,10 +148,10 @@ private fun PasswordAgainField() {
             .border(
                 BorderStroke(0.dp, Color.Transparent), RoundedCornerShape(8.dp)
             ),
-        value = passwordState,
+        value = passwordAgainState,
         shape = RoundedCornerShape(8.dp),
         onValueChange = { newText ->
-            passwordState = newText
+            function(newText)
         },
         placeholder = {
             Text(
@@ -171,8 +182,7 @@ private fun PasswordAgainField() {
 }
 
 @Composable
-private fun PasswordField() {
-    var passwordState by rememberSaveable { mutableStateOf("") }
+private fun PasswordField(passwordState: String, function: (String) -> Unit) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     OutlinedTextField(
@@ -185,7 +195,7 @@ private fun PasswordField() {
         value = passwordState,
         shape = RoundedCornerShape(8.dp),
         onValueChange = { newText ->
-            passwordState = newText
+            function(newText)
         },
         placeholder = {
             Text(
@@ -216,8 +226,8 @@ private fun PasswordField() {
 }
 
 @Composable
-private fun EmailField() {
-    var emailState by remember { mutableStateOf(TextFieldValue("")) }
+private fun EmailField(emailState: String, function: (String) -> Unit) {
+
     OutlinedTextField(
         modifier = Modifier
             .padding(horizontal = 24.dp, vertical = 8.dp)
@@ -228,7 +238,7 @@ private fun EmailField() {
         value = emailState,
         shape = RoundedCornerShape(8.dp),
         onValueChange = { newText ->
-            emailState = newText
+            function(newText)
         },
         placeholder = {
             Text(
@@ -244,23 +254,52 @@ private fun EmailField() {
     )
 }
 
-private fun cardClicked(navController: NavController) {
-    navController.navigate("login_screen") {
-        popUpTo(navController.graph.id) {
-            inclusive = true
+private fun cardClicked(
+    navController: NavController,
+    emailState: MutableState<String>,
+    passwordState: MutableState<String>,
+    passwordAgainState: MutableState<String>
+) {
+    Timber.e("email : ${emailState.value}")
+    Timber.e("password : ${passwordState.value}")
+    Timber.e("passwordAgain : ${passwordAgainState.value}")
+
+    val email = emailState.value
+    val password = passwordState.value
+    val passwordAgain = passwordAgainState.value
+
+    if (email.isNotEmpty() && password.isNotEmpty() && passwordAgain.isNotEmpty() && (password == passwordAgain)) {
+        navController.navigate("login_screen") {
+            popUpTo(navController.graph.id) {
+                inclusive = true
+            }
         }
+    } else {
+        Timber.e("Eksik Bilgi Girişi veya parolalar eşleşmiyor")
     }
+
+
 }
 
 
 @Composable
-private fun SignUpButton(navController: NavController) {
+private fun SignUpButton(
+    navController: NavController,
+    emailState: MutableState<String>,
+    passwordState: MutableState<String>,
+    passwordAgainState: MutableState<String>
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 32.dp, horizontal = 24.dp)
             .clickable {
-                cardClicked(navController = navController)
+                cardClicked(
+                    navController = navController,
+                    emailState,
+                    passwordState,
+                    passwordAgainState
+                )
             },
         shape = RoundedCornerShape(100),
         backgroundColor = colorResource(id = R.color.s_black)
