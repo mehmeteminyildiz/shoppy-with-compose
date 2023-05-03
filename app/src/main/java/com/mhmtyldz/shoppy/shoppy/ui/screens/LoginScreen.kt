@@ -3,6 +3,7 @@ package com.mhmtyldz.shoppy.shoppy.ui.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,6 +56,7 @@ created by Mehmet E. Yıldız
 fun LoginScreen(
     navController: NavController,
 ) {
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -65,7 +67,7 @@ fun LoginScreen(
             ),
     ) {
         HalfScreenCardView(modifier = Modifier.align(Alignment.BottomCenter)) {
-            LoginUI()
+            LoginUI(navController)
 
         }
     }
@@ -74,53 +76,71 @@ fun LoginScreen(
 
 
 @Composable
-fun LoginUI() {
+private fun LoginUI(navController: NavController) {
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier.defaultMinSize(minHeight = 500.dp)
     ) {
+
         SignInText()
         Spacer(modifier = Modifier.padding(top = 32.dp))
         EmailField()
         PasswordField()
-        SignInButton()
-        ForgotPasswordText()
-        DoNotHaveAnAccounText()
+        SignInButton(navController)
+        ForgotPasswordText(navController)
+        DoNotHaveAnAccounText(navController)
 
     }
 }
 
 @Composable
-fun DoNotHaveAnAccounText() {
+private fun DoNotHaveAnAccounText(navController: NavController) {
     Text(
         text = "Don't have an account? Sign Up",
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                gotoRegisterPage(navController)
+            },
         textAlign = TextAlign.Center,
         fontSize = 16.sp
     )
 }
 
 @Composable
-fun ForgotPasswordText() {
+private fun ForgotPasswordText(navController: NavController) {
     Text(
         text = "Forgot Password",
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                gotoForgotPasswordPage(navController)
+            },
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp
     )
 }
 
+private fun gotoForgotPasswordPage(navController: NavController) {
+    navController.navigate("forgot_password_screen")
+}
+
+private fun gotoRegisterPage(navController: NavController) {
+    navController.navigate("register_screen")
+}
+
 @Composable
-fun SignInButton() {
+private fun SignInButton(navController: NavController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 32.dp, horizontal = 24.dp),
+            .padding(vertical = 32.dp, horizontal = 24.dp)
+            .clickable {
+                cardClicked(navController = navController)
+            },
         shape = RoundedCornerShape(100),
         backgroundColor = colorResource(id = R.color.s_black)
     ) {
@@ -135,9 +155,18 @@ fun SignInButton() {
     }
 }
 
+private fun cardClicked(navController: NavController) {
+    navController.navigate("home_screen") {
+        popUpTo(navController.graph.id) {
+            inclusive = true
+        }
+    }
+}
+
+
 @Composable
-fun EmailField() {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
+private fun EmailField() {
+    var emailState by remember { mutableStateOf(TextFieldValue("")) }
     OutlinedTextField(
         modifier = Modifier
             .padding(horizontal = 24.dp, vertical = 8.dp)
@@ -145,10 +174,10 @@ fun EmailField() {
             .border(
                 BorderStroke(0.dp, Color.Transparent), RoundedCornerShape(8.dp)
             ),
-        value = text,
+        value = emailState,
         shape = RoundedCornerShape(8.dp),
         onValueChange = { newText ->
-            text = newText
+            emailState = newText
         },
         placeholder = {
             Text(
@@ -165,8 +194,8 @@ fun EmailField() {
 }
 
 @Composable
-fun PasswordField() {
-    var password by rememberSaveable { mutableStateOf("") }
+private fun PasswordField() {
+    var passwordState by rememberSaveable { mutableStateOf("") }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     OutlinedTextField(
@@ -176,10 +205,10 @@ fun PasswordField() {
             .border(
                 BorderStroke(0.dp, Color.Transparent), RoundedCornerShape(8.dp)
             ),
-        value = password,
+        value = passwordState,
         shape = RoundedCornerShape(8.dp),
         onValueChange = { newText ->
-            password = newText
+            passwordState = newText
         },
         placeholder = {
             Text(
@@ -210,7 +239,7 @@ fun PasswordField() {
 }
 
 @Composable
-fun SignInText() {
+private fun SignInText() {
     Text(
         text = "Sign In",
         modifier = Modifier.padding(horizontal = 24.dp),
@@ -219,8 +248,9 @@ fun SignInText() {
     )
 }
 
+
 @Composable
-fun HalfScreenCardView(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+private fun HalfScreenCardView(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
     Surface(
         modifier = modifier
             .fillMaxWidth()
