@@ -98,7 +98,6 @@ fun DoNotHaveAnAccounText() {
             .padding(8.dp)
             .fillMaxWidth(),
         textAlign = TextAlign.Center,
-        fontWeight = FontWeight.Bold,
         fontSize = 16.sp
     )
 }
