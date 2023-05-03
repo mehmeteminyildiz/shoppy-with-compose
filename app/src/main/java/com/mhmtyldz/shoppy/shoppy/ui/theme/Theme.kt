@@ -1,20 +1,22 @@
 package com.mhmtyldz.shoppy.shoppy.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 
-private val DarkColorPalette = darkColorScheme(
+private val DarkColorPalette = darkColors(
     primary = BlueMunsell,
-    secondary = White,
+    primaryVariant = RichBlack,
+    secondary = White
 
-    )
+)
 
-private val LightColorPalette = lightColorScheme(
+private val LightColorPalette = lightColors(
     primary = BlueMunsell,
+    primaryVariant = RichBlack,
     secondary = White,
 )
 
@@ -30,7 +32,7 @@ fun ShoppyTheme(
     }
 
     MaterialTheme(
-        colorScheme = colors,
+        colors = colors,
         typography = Typography,
         shapes = Shapes,
         content = content

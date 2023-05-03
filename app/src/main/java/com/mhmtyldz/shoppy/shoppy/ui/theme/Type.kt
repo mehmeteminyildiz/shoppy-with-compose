@@ -1,6 +1,6 @@
 package com.mhmtyldz.shoppy.shoppy.ui.theme
 
-import androidx.compose.material3.Typography
+import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -18,20 +18,22 @@ val titillium_web_regular= FontFamily(
 
 // Set of Material typography styles to start with
 val Typography = Typography(
-    bodyLarge = TextStyle(
+    body1 = TextStyle(
         fontFamily = titillium_web_regular,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
-    headlineSmall = TextStyle(
+    h5 = TextStyle(
         fontFamily = titillium_web_bold,
         fontWeight = FontWeight.Normal,
         fontSize = 22.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
-    )
+    ),
+    defaultFontFamily = titillium_web_regular,
+
 
     /* Other default text styles to override
     titleLarge = TextStyle(
