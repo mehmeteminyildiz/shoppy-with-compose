@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Shoppy</string>
+    <string name="app_name">ShoppyCompose</string>
+    <string name="shoppy">Shoppy</string>
 </resources>
