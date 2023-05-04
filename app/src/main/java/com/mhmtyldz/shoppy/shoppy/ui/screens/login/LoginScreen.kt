@@ -1,4 +1,4 @@
-package com.mhmtyldz.shoppy.shoppy.ui.screens
+package com.mhmtyldz.shoppy.shoppy.ui.screens.login
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -48,14 +48,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.mhmtyldz.shoppy.shoppy.R
+import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.FORGOT_PASSWORD_SCREEN
+import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.HOME_SCREEN
+import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.REGISTER_SCREEN
 import timber.log.Timber
 
 /**
 created by Mehmet E. Yıldız
  **/
-
 @Composable
-fun RegisterScreen(
+fun LoginScreen(
     navController: NavController,
 ) {
 
@@ -69,31 +71,25 @@ fun RegisterScreen(
             ),
     ) {
         HalfScreenCardView(modifier = Modifier.align(Alignment.BottomCenter)) {
-            RegisterUI(navController)
+            LoginUI(navController)
+
         }
     }
+
 }
 
 
 @Composable
-private fun getBg(): List<Color> {
-    return listOf(
-        colorResource(id = R.color.s_black), colorResource(id = R.color.s_gradient_1)
-    )
-}
+private fun LoginUI(navController: NavController) {
 
-@Composable
-private fun RegisterUI(navController: NavController) {
     val emailState = remember { mutableStateOf("") }
     val passwordState = remember { mutableStateOf("") }
-    val passwordAgainState = remember { mutableStateOf("") }
 
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier.defaultMinSize(minHeight = 500.dp)
     ) {
-
-        SignUpText()
+        SignInText()
         Spacer(modifier = Modifier.padding(top = 32.dp))
         EmailField(emailState.value) { newValue ->
             emailState.value = newValue
@@ -101,46 +97,97 @@ private fun RegisterUI(navController: NavController) {
         PasswordField(passwordState.value) { newValue ->
             passwordState.value = newValue
         }
-        PasswordAgainField(passwordAgainState.value) { newValue ->
-            passwordAgainState.value = newValue
-        }
-
-        SignUpButton(navController, emailState, passwordState, passwordAgainState)
-        AlreadyHaveAnAccounText(navController)
+        SignInButton(navController, emailState, passwordState)
+        ForgotPasswordText(navController)
+        DoNotHaveAnAccounText(navController)
 
     }
 }
 
-
 @Composable
-private fun HalfScreenCardView(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
-    Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min),
-        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-        color = Color.White,
-        elevation = 4.dp
-    ) {
-        content()
-    }
-
-}
-
-@Composable
-private fun SignUpText() {
+private fun DoNotHaveAnAccounText(navController: NavController) {
     Text(
-        text = "Sign Up",
-        modifier = Modifier.padding(horizontal = 24.dp),
-        style = MaterialTheme.typography.h5,
-        fontSize = 32.sp
+        text = "Don't have an account? Sign Up",
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .clickable {
+                gotoRegisterPage(navController)
+            },
+        textAlign = TextAlign.Center,
+        fontSize = 16.sp
     )
 }
 
 @Composable
-private fun PasswordAgainField(passwordAgainState: String, function: (String) -> Unit) {
-    var passwordVisible by rememberSaveable { mutableStateOf(false) }
+private fun ForgotPasswordText(navController: NavController) {
+    Text(
+        text = "Forgot Password", modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .clickable {
+                gotoForgotPasswordPage(navController)
+            }, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, fontSize = 16.sp
+    )
+}
 
+private fun gotoForgotPasswordPage(navController: NavController) {
+    navController.navigate(FORGOT_PASSWORD_SCREEN)
+}
+
+private fun gotoRegisterPage(navController: NavController) {
+    navController.navigate(REGISTER_SCREEN)
+}
+
+@Composable
+private fun SignInButton(
+    navController: NavController,
+    emailState: MutableState<String>,
+    passwordState: MutableState<String>
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 32.dp, horizontal = 24.dp)
+            .clickable {
+                cardClicked(navController = navController, emailState, passwordState)
+            },
+        shape = RoundedCornerShape(100),
+        backgroundColor = colorResource(id = R.color.s_black)
+    ) {
+        Text(
+            text = "Sign In",
+            modifier = Modifier.padding(16.dp),
+            textAlign = TextAlign.Center,
+            color = colorResource(id = R.color.white),
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+private fun cardClicked(
+    navController: NavController,
+    emailState: MutableState<String>,
+    passwordState: MutableState<String>
+) {
+    Timber.e("email : ${emailState.value}")
+    Timber.e("password : ${passwordState.value}")
+    val email = emailState.value
+    val password = passwordState.value
+    navController.navigate(HOME_SCREEN) {
+        popUpTo(navController.graph.id) {
+            inclusive = true
+        }
+    }
+
+
+}
+
+
+@Composable
+private fun EmailField(emailState: String, function: (String) -> Unit) {
+//    var emailState by remember { mutableStateOf(TextFieldValue("")) }
     OutlinedTextField(
         modifier = Modifier
             .padding(horizontal = 24.dp, vertical = 8.dp)
@@ -148,31 +195,17 @@ private fun PasswordAgainField(passwordAgainState: String, function: (String) ->
             .border(
                 BorderStroke(0.dp, Color.Transparent), RoundedCornerShape(8.dp)
             ),
-        value = passwordAgainState,
+        value = emailState,
         shape = RoundedCornerShape(8.dp),
         onValueChange = { newText ->
             function(newText)
         },
         placeholder = {
             Text(
-                text = "Password Again", color = colorResource(id = R.color.s_hint)
+                text = "Email", color = colorResource(id = R.color.s_hint)
             )
         },
-        trailingIcon = {
-            val image = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-            val description = if (passwordVisible) "Hide Password" else "Show Password"
-
-            IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                Icon(
-                    imageVector = image,
-                    contentDescription = description,
-                    tint = colorResource(id = R.color.s_black)
-                )
-            }
-
-        },
-        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             backgroundColor = colorResource(id = R.color.s_grey_light),
             unfocusedBorderColor = Color.Transparent,
@@ -226,115 +259,34 @@ private fun PasswordField(passwordState: String, function: (String) -> Unit) {
 }
 
 @Composable
-private fun EmailField(emailState: String, function: (String) -> Unit) {
-
-    OutlinedTextField(
-        modifier = Modifier
-            .padding(horizontal = 24.dp, vertical = 8.dp)
-            .fillMaxWidth()
-            .border(
-                BorderStroke(0.dp, Color.Transparent), RoundedCornerShape(8.dp)
-            ),
-        value = emailState,
-        shape = RoundedCornerShape(8.dp),
-        onValueChange = { newText ->
-            function(newText)
-        },
-        placeholder = {
-            Text(
-                text = "Email", color = colorResource(id = R.color.s_hint)
-            )
-        },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = colorResource(id = R.color.s_grey_light),
-            unfocusedBorderColor = Color.Transparent,
-            focusedBorderColor = colorResource(id = R.color.s_black)
-        )
-    )
-}
-
-private fun cardClicked(
-    navController: NavController,
-    emailState: MutableState<String>,
-    passwordState: MutableState<String>,
-    passwordAgainState: MutableState<String>
-) {
-    Timber.e("email : ${emailState.value}")
-    Timber.e("password : ${passwordState.value}")
-    Timber.e("passwordAgain : ${passwordAgainState.value}")
-
-    val email = emailState.value
-    val password = passwordState.value
-    val passwordAgain = passwordAgainState.value
-
-    if (email.isNotEmpty() && password.isNotEmpty() && passwordAgain.isNotEmpty() && (password == passwordAgain)) {
-        navController.navigate("login_screen") {
-            popUpTo(navController.graph.id) {
-                inclusive = true
-            }
-        }
-    } else {
-        Timber.e("Eksik Bilgi Girişi veya parolalar eşleşmiyor")
-    }
-
-
-}
-
-
-@Composable
-private fun SignUpButton(
-    navController: NavController,
-    emailState: MutableState<String>,
-    passwordState: MutableState<String>,
-    passwordAgainState: MutableState<String>
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 32.dp, horizontal = 24.dp)
-            .clickable {
-                cardClicked(
-                    navController = navController,
-                    emailState,
-                    passwordState,
-                    passwordAgainState
-                )
-            },
-        shape = RoundedCornerShape(100),
-        backgroundColor = colorResource(id = R.color.s_black)
-    ) {
-        Text(
-            text = "Sign Up",
-            modifier = Modifier.padding(16.dp),
-            textAlign = TextAlign.Center,
-            color = colorResource(id = R.color.white),
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold
-        )
-    }
-}
-
-private fun gotoLoginPage(navController: NavController) {
-    navController.navigate("login_screen") {
-        popUpTo(navController.graph.id) {
-            inclusive = true
-        }
-    }
-}
-
-@Composable
-private fun AlreadyHaveAnAccounText(navController: NavController) {
+private fun SignInText() {
     Text(
-        text = "Already have an account? Sign In",
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-            .clickable {
-                gotoLoginPage(navController)
-            },
-        textAlign = TextAlign.Center,
-        fontSize = 16.sp
+        text = "Sign In",
+        modifier = Modifier.padding(horizontal = 24.dp),
+        style = MaterialTheme.typography.h5,
+        fontSize = 32.sp
     )
 }
 
+
+@Composable
+private fun HalfScreenCardView(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min),
+        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+        color = Color.White,
+        elevation = 4.dp
+    ) {
+        content()
+    }
+
+}
+
+@Composable
+private fun getBg(): List<Color> {
+    return listOf(
+        colorResource(id = R.color.s_black), colorResource(id = R.color.s_gradient_1)
+    )
+}

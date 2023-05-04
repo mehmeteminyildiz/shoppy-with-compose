@@ -1,4 +1,4 @@
-package com.mhmtyldz.shoppy.shoppy.ui.screens
+package com.mhmtyldz.shoppy.shoppy.ui.screens.forgot_password
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController

@@ -6,12 +6,17 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mhmtyldz.shoppy.shoppy.ui.screens.ForgotPasswordScreen
-import com.mhmtyldz.shoppy.shoppy.ui.screens.HomeScreen
-import com.mhmtyldz.shoppy.shoppy.ui.screens.InitialScreen
-import com.mhmtyldz.shoppy.shoppy.ui.screens.LoginScreen
-import com.mhmtyldz.shoppy.shoppy.ui.screens.RegisterScreen
+import com.mhmtyldz.shoppy.shoppy.ui.screens.forgot_password.ForgotPasswordScreen
+import com.mhmtyldz.shoppy.shoppy.ui.screens.home.HomeScreen
+import com.mhmtyldz.shoppy.shoppy.ui.screens.initial.InitialScreen
+import com.mhmtyldz.shoppy.shoppy.ui.screens.login.LoginScreen
+import com.mhmtyldz.shoppy.shoppy.ui.screens.register.RegisterScreen
 import com.mhmtyldz.shoppy.shoppy.ui.theme.ShoppyTheme
+import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.FORGOT_PASSWORD_SCREEN
+import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.HOME_SCREEN
+import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.INITIAL_SCREEN
+import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.LOGIN_SCREEN
+import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.REGISTER_SCREEN
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,21 +25,21 @@ class MainActivity : ComponentActivity() {
             ShoppyTheme {
                 val navController = rememberNavController()
 
-                NavHost(navController = navController, startDestination = "initial_screen") {
+                NavHost(navController = navController, startDestination = HOME_SCREEN) {
 
-                    composable("initial_screen") {
+                    composable(INITIAL_SCREEN) {
                         InitialScreen(navController = navController)
                     }
-                    composable("login_screen") {
+                    composable(LOGIN_SCREEN) {
                         LoginScreen(navController = navController)
                     }
-                    composable("home_screen") {
+                    composable(HOME_SCREEN) {
                         HomeScreen(navController = navController)
                     }
-                    composable("register_screen") {
+                    composable(REGISTER_SCREEN) {
                         RegisterScreen(navController = navController)
                     }
-                    composable("forgot_password_screen") {
+                    composable(FORGOT_PASSWORD_SCREEN) {
                         ForgotPasswordScreen(navController = navController)
                     }
                 }
