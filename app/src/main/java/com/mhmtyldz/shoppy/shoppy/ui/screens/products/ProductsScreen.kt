@@ -33,6 +33,8 @@ fun ProductsScreen(navController: NavController) {
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
             ProductsToolbar(navController = navController)
+            CategoryList(navController = navController)
+
         }
     }
 
