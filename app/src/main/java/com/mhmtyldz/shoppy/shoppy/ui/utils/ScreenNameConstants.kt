@@ -12,6 +12,7 @@ object ScreenNameConstants {
     const val FORGOT_PASSWORD_SCREEN = "forgot_password_screen"
     const val CART_SCREEN = "forgot_password_screen"
     const val PRODUCTS_SCREEN = "products_screen"
+    const val PRODUCT_DETAIL_SCREEN = "product_detail_screen"
 
 
 }

@@ -1,5 +1,6 @@
 package com.mhmtyldz.shoppy.shoppy.ui.screens.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,8 +26,7 @@ created by Mehmet E. Yıldız
 @Composable
 fun ProductListView(title: String, productList: ArrayList<Product>, navController: NavController) {
     Column(
-        modifier = Modifier
-            .padding(top = 16.dp)
+        modifier = Modifier.padding(top = 16.dp)
 
     ) {
 
@@ -43,7 +43,11 @@ fun ProductListView(title: String, productList: ArrayList<Product>, navControlle
             )
             Text(
                 "View All",
-                modifier = Modifier.padding(start = 24.dp, end = 24.dp),
+                modifier = Modifier
+                    .padding(start = 24.dp, end = 24.dp)
+                    .clickable {
+                        gotoProducts(navController = navController, category = title)
+                    },
                 style = MaterialTheme.typography.body1,
                 color = colorResource(id = R.color.s_border),
                 fontSize = 16.sp

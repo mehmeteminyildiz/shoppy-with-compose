@@ -11,6 +11,7 @@ import com.mhmtyldz.shoppy.shoppy.ui.screens.forgot_password.ForgotPasswordScree
 import com.mhmtyldz.shoppy.shoppy.ui.screens.home.HomeScreen
 import com.mhmtyldz.shoppy.shoppy.ui.screens.initial.InitialScreen
 import com.mhmtyldz.shoppy.shoppy.ui.screens.login.LoginScreen
+import com.mhmtyldz.shoppy.shoppy.ui.screens.productDetail.ProductDetailScreen
 import com.mhmtyldz.shoppy.shoppy.ui.screens.products.ProductsScreen
 import com.mhmtyldz.shoppy.shoppy.ui.screens.register.RegisterScreen
 import com.mhmtyldz.shoppy.shoppy.ui.theme.ShoppyTheme
@@ -20,6 +21,7 @@ import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.HOME_SCREEN
 import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.INITIAL_SCREEN
 import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.LOGIN_SCREEN
 import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.PRODUCTS_SCREEN
+import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.PRODUCT_DETAIL_SCREEN
 import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.REGISTER_SCREEN
 
 class MainActivity : ComponentActivity() {
@@ -51,6 +53,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(PRODUCTS_SCREEN) {
                         ProductsScreen(navController = navController)
+                    }
+                    composable(PRODUCT_DETAIL_SCREEN) {
+                        ProductDetailScreen(navController = navController)
                     }
 
                 }

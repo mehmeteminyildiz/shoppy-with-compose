@@ -37,6 +37,7 @@ fun ProductItem(product: Product, navController: NavController) {
             .widthIn(0.dp, 220.dp) //mention max width here
             .clickable {
                 Timber.e("ürün detaya git, id : ${product.id!!}")
+                gotoProductDetail(navController, product)
             },
         shape = RoundedCornerShape(5.dp),
         elevation = 1.dp,
@@ -77,8 +78,9 @@ fun ProductItem(product: Product, navController: NavController) {
                 fontWeight = FontWeight.Bold
             )
         }
-
-
     }
-
 }
+
+
+
+
