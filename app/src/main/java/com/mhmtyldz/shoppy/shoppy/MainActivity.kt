@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
             ShoppyTheme {
                 val navController = rememberNavController()
 
-                NavHost(navController = navController, startDestination = HOME_SCREEN) {
+                NavHost(navController = navController, startDestination = PRODUCTS_SCREEN) {
 
                     composable(INITIAL_SCREEN) {
                         InitialScreen(navController = navController)

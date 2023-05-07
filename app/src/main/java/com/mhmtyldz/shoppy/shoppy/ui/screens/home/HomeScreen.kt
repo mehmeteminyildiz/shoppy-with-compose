@@ -33,7 +33,6 @@ fun HomeScreen(
     ) {
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
-
         ) {
             HomeToolbar(navController = navController)
             CategoryList(navController = navController)
