@@ -9,30 +9,30 @@ import androidx.compose.ui.unit.sp
 import com.mhmtyldz.shoppy.shoppy.R
 
 
-val titillium_web_bold= FontFamily(
-    Font(R.font.titillium_web_bold),
+val lato_bold = FontFamily(
+    Font(R.font.lato_bold),
 )
-val titillium_web_regular= FontFamily(
-    Font(R.font.titillium_web_regular),
+val lato_regular = FontFamily(
+    Font(R.font.lato_regular),
 )
 
 // Set of Material typography styles to start with
 val Typography = Typography(
     body1 = TextStyle(
-        fontFamily = titillium_web_regular,
+        fontFamily = lato_regular,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
     h5 = TextStyle(
-        fontFamily = titillium_web_bold,
+        fontFamily = lato_bold,
         fontWeight = FontWeight.Normal,
         fontSize = 22.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
-    defaultFontFamily = titillium_web_regular,
+    defaultFontFamily = lato_regular,
 
 
     /* Other default text styles to override
