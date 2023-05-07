@@ -10,6 +10,8 @@ object ScreenNameConstants {
     const val HOME_SCREEN = "home_screen"
     const val REGISTER_SCREEN = "register_screen"
     const val FORGOT_PASSWORD_SCREEN = "forgot_password_screen"
+    const val CART_SCREEN = "forgot_password_screen"
+    const val PRODUCTS_SCREEN = "products_screen"
 
 
 }

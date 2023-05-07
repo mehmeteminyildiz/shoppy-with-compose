@@ -6,16 +6,20 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mhmtyldz.shoppy.shoppy.ui.screens.cart.CartScreen
 import com.mhmtyldz.shoppy.shoppy.ui.screens.forgot_password.ForgotPasswordScreen
 import com.mhmtyldz.shoppy.shoppy.ui.screens.home.HomeScreen
 import com.mhmtyldz.shoppy.shoppy.ui.screens.initial.InitialScreen
 import com.mhmtyldz.shoppy.shoppy.ui.screens.login.LoginScreen
+import com.mhmtyldz.shoppy.shoppy.ui.screens.products.ProductsScreen
 import com.mhmtyldz.shoppy.shoppy.ui.screens.register.RegisterScreen
 import com.mhmtyldz.shoppy.shoppy.ui.theme.ShoppyTheme
+import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.CART_SCREEN
 import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.FORGOT_PASSWORD_SCREEN
 import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.HOME_SCREEN
 import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.INITIAL_SCREEN
 import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.LOGIN_SCREEN
+import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.PRODUCTS_SCREEN
 import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.REGISTER_SCREEN
 
 class MainActivity : ComponentActivity() {
@@ -42,6 +46,13 @@ class MainActivity : ComponentActivity() {
                     composable(FORGOT_PASSWORD_SCREEN) {
                         ForgotPasswordScreen(navController = navController)
                     }
+                    composable(CART_SCREEN) {
+                        CartScreen(navController = navController)
+                    }
+                    composable(PRODUCTS_SCREEN) {
+                        ProductsScreen(navController = navController)
+                    }
+
                 }
 
             }

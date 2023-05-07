@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,6 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.mhmtyldz.shoppy.shoppy.R
+import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.CART_SCREEN
+import com.mhmtyldz.shoppy.shoppy.ui.utils.ScreenNameConstants.PRODUCTS_SCREEN
 import timber.log.Timber
 
 /**
@@ -51,7 +54,7 @@ fun HomeScreen(
             ),
     ) {
         Column() {
-            CustomToolbar()
+            CustomToolbar(navController = navController)
             CategoryList(navController = navController)
 
 
@@ -93,7 +96,7 @@ fun CategoryList(navController: NavController) {
 @Composable
 fun CategoryListView(categoryList: ArrayList<String>, navController: NavController) {
     LazyRow(
-        contentPadding = PaddingValues(vertical = 16.dp, horizontal = 16.dp)
+        contentPadding = PaddingValues(top = 16.dp, start = 16.dp, end = 16.dp)
     ) {
         items(categoryList.size) { index ->
             CategoryItem(category = categoryList[index], navController)
@@ -132,37 +135,55 @@ fun CategoryItem(category: String, navController: NavController) {
 
 
 @Composable
-fun CustomToolbar() {
+fun CustomToolbar(navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp, vertical = 12.dp),
+            .padding(start = 24.dp, end = 24.dp, top = 12.dp),
     ) {
+
         Text(
             text = "Shoppy", style = MaterialTheme.typography.h5, fontSize = 22.sp
         )
+
         Row(
             modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End
         ) {
             Image(
                 painter = painterResource(id = R.drawable.baseline_search_32),
-                contentDescription = "Shoppy Logo",
-                modifier = Modifier.size(32.dp, 32.dp),
+                contentDescription = "Search product",
+                modifier = Modifier
+                    .size(32.dp, 32.dp)
+                    .clickable {
+                        gotoProducts(navController = navController)
+                    },
                 colorFilter = ColorFilter.tint(
                     colorResource(id = R.color.s_black)
                 )
             )
+            Spacer(modifier = Modifier.padding(horizontal = 4.dp))
             Image(
                 painter = painterResource(id = R.drawable.outline_shopping_cart_32),
-
-                contentDescription = "Shoppy Logo",
-                modifier = Modifier.size(32.dp, 32.dp),
+                contentDescription = "Go to cart",
+                modifier = Modifier
+                    .size(32.dp, 32.dp)
+                    .clickable {
+                        gotoCart(navController = navController)
+                    },
                 colorFilter = ColorFilter.tint(
                     colorResource(id = R.color.s_black)
                 )
             )
         }
     }
+}
+
+fun gotoCart(navController: NavController) {
+    navController.navigate(CART_SCREEN)
+}
+
+fun gotoProducts(navController: NavController) {
+    navController.navigate(PRODUCTS_SCREEN)
 }
 
 @Composable
