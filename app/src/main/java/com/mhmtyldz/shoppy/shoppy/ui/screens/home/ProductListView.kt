@@ -29,7 +29,6 @@ fun ProductListView(title: String, productList: ArrayList<Product>, navControlle
         modifier = Modifier.padding(top = 16.dp)
 
     ) {
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,

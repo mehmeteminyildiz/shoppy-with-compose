@@ -72,7 +72,6 @@ fun LoginScreen(
     ) {
         HalfScreenCardView(modifier = Modifier.align(Alignment.BottomCenter)) {
             LoginUI(navController)
-
         }
     }
 

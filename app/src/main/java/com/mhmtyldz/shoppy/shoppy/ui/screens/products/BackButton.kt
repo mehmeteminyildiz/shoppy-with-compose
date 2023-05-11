@@ -32,5 +32,5 @@ fun BackButton(navController: NavController) {
 }
 
 fun goBack(navController: NavController) {
-
+    navController.popBackStack()
 }

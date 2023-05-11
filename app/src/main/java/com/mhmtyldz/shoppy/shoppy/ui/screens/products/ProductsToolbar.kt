@@ -79,11 +79,6 @@ fun SearchCard(searchState: String, function: (String) -> Unit) {
             top = 8.dp, bottom = 8.dp, end = 24.dp
         )
     ) {
-        val brush = remember {
-            Brush.linearGradient(
-                colors = listOf(Color.Yellow, Color.Black)
-            )
-        }
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
